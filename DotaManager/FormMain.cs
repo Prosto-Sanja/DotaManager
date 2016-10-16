@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using DotaManager.Data_Classes.Exceptions;
 
@@ -6,6 +7,7 @@ namespace DotaManager
 {
     public partial class FormMain : Form
     {
+        private Thread _managerThread, _exceptionThread;
         private Manager _manager;
 
         public FormMain()
@@ -15,31 +17,46 @@ namespace DotaManager
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+           
+        }
+
+        private void FormMain_Closing(object sender, FormClosingEventArgs eventArgs)
+        {
+            // Shutdown manager
+            if (_managerThread != null && _managerThread.IsAlive)
+            {
+                _manager.Stop();
+            }
+        }
+
+        private void loginButton_Click(object sender, EventArgs e)
+        {
             try
             {
-                _manager = new Manager("", "");
-                var myThread = new System.Threading.Thread(_manager.Start);
-                myThread.Start();
+                _manager = new Manager(usernameBox.Text, passwordBox.Text);
+                _managerThread = new Thread(_manager.Start);
+                _managerThread.Start();
+                _exceptionThread = new Thread(monitorError);
+                _exceptionThread.Start();
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.GetType().ToString());
             }
-
-
         }
 
-        private void FormMain_Closing(object sender, FormClosingEventArgs eventArgs)
+        private void monitorError()
         {
-            // Confirm user wants to close
-            switch (MessageBox.Show(this, "Are you sure you want to close?", "Closing", MessageBoxButtons.YesNo))
+            while (_manager.IsRunning())
             {
-                case DialogResult.No:
-                    eventArgs.Cancel = true;
-                    break;
-                default:
-                    _manager.Stop();
-                    break;
+                try
+                {
+                    _manager.MonitorException();
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.GetType().ToString());
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using DotaManager.Data_Classes.Exceptions;
 using SteamKit2;
 
@@ -18,6 +19,8 @@ namespace DotaManager
 
         private readonly string _user, _pass;
 
+        private Exception _exception;
+
         public Manager(string user, string pass)
         {
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pass))
@@ -25,7 +28,7 @@ namespace DotaManager
                 //invalid login arguments, can't continue
                 throw new InvalidCredentialsException("Username or password unspecified!");
             }
-        
+
             _user = user;
             _pass = pass;
 
@@ -56,8 +59,7 @@ namespace DotaManager
         {
             if (callback.Result != EResult.OK)
             {
-                _isRunning = false;
-                throw new ConnectionException("Unable to connect to Steam: " +  callback.Result.ToString());
+                _exception = new ConnectionException("Unable to connect to Steam: " + callback.Result.ToString());
             }
             //Connected to Steam! Logging in
             _steamUser.LogOn(new SteamUser.LogOnDetails
@@ -70,33 +72,30 @@ namespace DotaManager
         private void OnDisconnected(SteamClient.DisconnectedCallback callback)
         {
             if (!_isRunning) return;
-            _isRunning = false;
-            throw new ConnectionException("Disconnected from Steam");
+            _exception = new ConnectionException("Disconnected from Steam");
         }
 
         private void OnLoggedOn(SteamUser.LoggedOnCallback callback)
         {
             if (callback.Result != EResult.OK)
             {
-                _isRunning = false;
-                throw new SteamLoginException("Unable to logon to Steam: " + callback.Result.ToString() + " /// " + callback.ExtendedResult.ToString());
+                _exception = new SteamLoginException("Unable to logon to Steam: " + callback.Result.ToString() + " /// " + callback.ExtendedResult.ToString());
             }
             //Successfully logged in
-            
+
         }
 
         private void OnLoggedOff(SteamUser.LoggedOffCallback callback)
         {
             if (!_isRunning) return;
-            _isRunning = false;
-            throw new SteamLoginException("Unexpectedly logged off");
+            _exception = new SteamLoginException("Unexpectedly logged off");
         }
 
         private void OnAccountInfo(SteamUser.AccountInfoCallback callback)
         {
             // before being able to interact with friends, you must wait for the account info callback
             // this callback is posted shortly after a successful logon
-            
+
             _steamFriends.SetPersonaState(EPersonaState.Busy);
         }
 
@@ -112,6 +111,20 @@ namespace DotaManager
                 // in order for the callbacks to get routed, they need to be handled by the manager
                 _callbackManager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
             }
+        }
+
+        public void MonitorException()
+        {
+            if (_exception != null)
+            {
+                Stop();
+                throw _exception;
+            }
+        }
+
+        public bool IsRunning()
+        {
+            return _isRunning;
         }
 
         public void Stop()
