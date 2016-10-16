@@ -8,6 +8,7 @@ namespace DotaManager.Data_Classes.Enums
 {
     internal enum ManagerStatus
     {
+        Exception = -1,
         Stopped = 0,
         Connecting = 1,
         LoggingIn = 2,
