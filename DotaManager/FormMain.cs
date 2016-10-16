@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 using DotaManager.Data_Classes.Enums;
+using SteamKit2.GC.Dota.Internal;
 
 namespace DotaManager
 {
@@ -33,7 +34,7 @@ namespace DotaManager
                 _steamManager = new SteamManager(usernameBox.Text, passwordBox.Text);
                 _managerThread = new Thread(_steamManager.Start);
                 _managerThread.Start();
-                _exceptionThread = new Thread(MonitorError);
+                _exceptionThread = new Thread(Monitor);
                 _exceptionThread.Start();
             }
             catch (Exception exception)
@@ -55,53 +56,77 @@ namespace DotaManager
             _dotaManager.Start();
         }
 
-        private void MonitorError()
+        //monitoring steam and dota status(dota<steam)
+        private void Monitor()
         {
             try
             {
-                ManagerStatus status;
-                while ((status = _steamManager.Monitor()) != ManagerStatus.Stopped)
+                SteamManagerStatus steamStatus;
+                while ((steamStatus = _steamManager.Monitor()) != SteamManagerStatus.Stopped)
                 {
-                    SetStatusText(status.ToString());
+                    if (_dotaManager != null)
+                    {
+                        SetDotaStatusText(_dotaManager.Monitor().ToString());
+                    }
+                    SetSteamStatusText(steamStatus.ToString());
                     Thread.Sleep(TimeSpan.FromSeconds(1));
                 }
-                SetStatusText(ManagerStatus.Stopped.ToString());
+                SetSteamStatusText(SteamManagerStatus.Stopped.ToString());
             }
             catch (Exception exception)
             {
-                SetStatusText(ManagerStatus.Exception.ToString());
+                SetSteamStatusText(SteamManagerStatus.Exception.ToString());
                 MessageBox.Show(exception.GetType().ToString());
             }
         }
 
         #region thread safe GUI calls
-        private void SetStatusText(string text)
+        private void SetSteamStatusText(string text)
         {
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
-            if (playGroup.InvokeRequired)
+            if (SteamStatusLabel.InvokeRequired)
             {
-                SetTextCallback d = SetStatusText;
+                SetStatusTextCallback d = SetSteamStatusText;
                 Invoke(d, text);
             }
             else
             {
-                playGroup.Text = "Status: " + text;
+                SteamStatusLabel.Text = "Status: " + text;
+            }
+        }
+        private void SetDotaStatusText(string text)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (dotaStatusLabel.InvokeRequired)
+            {
+                SetStatusTextCallback d = SetDotaStatusText;
+                Invoke(d, text);
+            }
+            else
+            {
+                dotaStatusLabel.Text = "Status: " + text;
             }
         }
 
-        private delegate void SetTextCallback(string text);
+        private delegate void SetStatusTextCallback(string text);
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+         //   _dotaManager.AddMessageHandler((uint)ESOMsg.k_ESOMsg_CacheSubscribed, CacheSubscribed);
+            dotaStatusLabel.Text = "dshfbuysdgh";
+        }
 
         private void ShutdownEvrything()
         {
             // Shutdown manager
             if (_managerThread == null || !_managerThread.IsAlive) return;
             _steamManager.Stop();
-            _dotaManager = null;
-            _steamManager = null;
         }
     }
 }

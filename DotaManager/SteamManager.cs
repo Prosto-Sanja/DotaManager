@@ -13,9 +13,8 @@ namespace DotaManager
 
         private readonly SteamUser _steamUser;
         private readonly SteamFriends _steamFriends;
-        private SteamGameCoordinator _steamGameCoordinator;
 
-        private ManagerStatus _isRunning;
+        private SteamManagerStatus _isRunning = SteamManagerStatus.Stopped;
 
         private readonly string _user, _pass;
 
@@ -41,8 +40,6 @@ namespace DotaManager
             _steamUser = _steamClient.GetHandler<SteamUser>();
             // get the steam friends handler, which is used for interacting with friends on the network after logging on
             _steamFriends = _steamClient.GetHandler<SteamFriends>();
-            //get game coordinator handler, use in game
-            _steamGameCoordinator = _steamClient.GetHandler<SteamGameCoordinator>();
 
             // register a few callbacks we're interested in
             _callbackManager.Subscribe<SteamClient.ConnectedCallback>(OnConnected);
@@ -61,7 +58,7 @@ namespace DotaManager
                 return;
             }
             //Connected to Steam! Logging in
-            _isRunning = ManagerStatus.LoggingIn;
+            _isRunning = SteamManagerStatus.LoggingIn;
             _steamUser.LogOn(new SteamUser.LogOnDetails
             {
                 Username = _user,
@@ -72,7 +69,7 @@ namespace DotaManager
         private void OnDisconnected(SteamClient.DisconnectedCallback callback)
         {
             //if we are shutting down - ok; if drop - throw
-            if (_isRunning == ManagerStatus.Stopped) return;
+            if (_isRunning == SteamManagerStatus.Stopped) return;
             _exception = new ConnectionException("Disconnected from Steam");
         }
 
@@ -83,7 +80,7 @@ namespace DotaManager
                 _exception = new SteamLoginException("Unable to logon to Steam: " + callback.Result.ToString() + " /// " + callback.ExtendedResult.ToString());
                 return;
             }
-            _isRunning = ManagerStatus.Online;
+            _isRunning = SteamManagerStatus.Online;
             //Successfully logged in
 
         }
@@ -91,7 +88,7 @@ namespace DotaManager
         private void OnLoggedOff(SteamUser.LoggedOffCallback callback)
         {
             //if we are shutting down - ok; if drop - throw
-            if (_isRunning == ManagerStatus.Stopped) return;
+            if (_isRunning == SteamManagerStatus.Stopped) return;
             _exception = new SteamLoginException("Unexpectedly logged off");
         }
 
@@ -106,18 +103,18 @@ namespace DotaManager
 
         public void Start()
         {
-            _isRunning = ManagerStatus.Connecting;
+            _isRunning = SteamManagerStatus.Connecting;
             // initiate the connection
             _steamClient.Connect();
             // create our callback handling loop
-            while (_isRunning != ManagerStatus.Stopped)
+            while (_isRunning != SteamManagerStatus.Stopped)
             {
                 // in order for the callbacks to get routed, they need to be handled by the manager
                 _callbackManager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
             }
         }
 
-        public ManagerStatus Monitor()
+        public SteamManagerStatus Monitor()
         {
             if (_exception != null)
             {
@@ -129,7 +126,7 @@ namespace DotaManager
 
         public void Stop()
         {
-            _isRunning = ManagerStatus.Stopped;
+            _isRunning = SteamManagerStatus.Stopped;
             _steamClient.Disconnect();
         }
 
