@@ -69,7 +69,7 @@ namespace DotaManager
         private void OnDisconnected(SteamClient.DisconnectedCallback callback)
         {
             //if we are shutting down - ok; if drop - throw
-            if (_isRunning == SteamManagerStatus.Stopped) return;
+            if (_isRunning == SteamManagerStatus.Stopped || _exception != null) return;
             _exception = new ConnectionException("Disconnected from Steam");
         }
 
@@ -127,6 +127,8 @@ namespace DotaManager
         public void Stop()
         {
             _isRunning = SteamManagerStatus.Stopped;
+            _steamClient.RemoveHandler(_steamFriends);
+            _steamClient.RemoveHandler(_steamUser);
             _steamClient.Disconnect();
         }
 

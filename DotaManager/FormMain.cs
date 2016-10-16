@@ -71,12 +71,13 @@ namespace DotaManager
                     SetSteamStatusText(steamStatus.ToString());
                     Thread.Sleep(TimeSpan.FromSeconds(1));
                 }
+                SetDotaStatusText(DotaManagerStatus.Stopped.ToString());
                 SetSteamStatusText(SteamManagerStatus.Stopped.ToString());
             }
             catch (Exception exception)
             {
                 SetSteamStatusText(SteamManagerStatus.Exception.ToString());
-                MessageBox.Show(exception.GetType().ToString());
+                MessageBox.Show(exception.GetType().ToString() + "\n" + exception.Message);
             }
         }
 
@@ -126,6 +127,8 @@ namespace DotaManager
         {
             // Shutdown manager
             if (_managerThread == null || !_managerThread.IsAlive) return;
+            //shutdown dota IF RUNNING (and learn how to use '?')
+            _dotaManager?.Stop();
             _steamManager.Stop();
         }
     }

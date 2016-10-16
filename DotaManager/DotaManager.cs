@@ -92,5 +92,11 @@ namespace DotaManager
             return _status;
         }
 
+        public void Stop()
+        {
+            _steamClient.RemoveHandler(_steamGameCoordinator);
+            _status = DotaManagerStatus.Stopped;
+        }
+
     }
 }
