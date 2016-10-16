@@ -36,8 +36,10 @@ namespace DotaManager
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.loginButton = new System.Windows.Forms.Button();
             this.logoutButton = new System.Windows.Forms.Button();
-            this.statusLabel = new System.Windows.Forms.Label();
+            this.playButton = new System.Windows.Forms.Button();
+            this.playGroup = new System.Windows.Forms.GroupBox();
             this.loginGroup.SuspendLayout();
+            this.playGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // loginGroup
@@ -96,21 +98,36 @@ namespace DotaManager
             this.logoutButton.UseVisualStyleBackColor = true;
             this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
             // 
-            // statusLabel
+            // playButton
             // 
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(353, 31);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(37, 13);
-            this.statusLabel.TabIndex = 1;
-            this.statusLabel.Text = "Offline";
+            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.playButton.Location = new System.Drawing.Point(6, 19);
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(207, 46);
+            this.playButton.TabIndex = 1;
+            this.playButton.Text = "Launch DOTA";
+            this.playButton.UseVisualStyleBackColor = true;
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            // 
+            // playGroup
+            // 
+            this.playGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.playGroup.Controls.Add(this.playButton);
+            this.playGroup.Location = new System.Drawing.Point(353, 12);
+            this.playGroup.Name = "playGroup";
+            this.playGroup.Size = new System.Drawing.Size(219, 71);
+            this.playGroup.TabIndex = 2;
+            this.playGroup.TabStop = false;
+            this.playGroup.Text = "Status: Stopped";
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
-            this.Controls.Add(this.statusLabel);
+            this.Controls.Add(this.playGroup);
             this.Controls.Add(this.loginGroup);
             this.MinimumSize = new System.Drawing.Size(600, 400);
             this.Name = "FormMain";
@@ -119,8 +136,8 @@ namespace DotaManager
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.loginGroup.ResumeLayout(false);
             this.loginGroup.PerformLayout();
+            this.playGroup.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -131,6 +148,7 @@ namespace DotaManager
         private Button loginButton;
         private TextBox passwordBox;
         private Button logoutButton;
-        private Label statusLabel;
+        private Button playButton;
+        private GroupBox playGroup;
     }
 }

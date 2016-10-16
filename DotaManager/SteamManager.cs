@@ -5,7 +5,7 @@ using SteamKit2;
 
 namespace DotaManager
 {
-    internal class Manager
+    internal class SteamManager
     {
 
         private readonly SteamClient _steamClient;
@@ -21,7 +21,7 @@ namespace DotaManager
 
         private Exception _exception;
 
-        public Manager(string user, string pass)
+        public SteamManager(string user, string pass)
         {
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pass))
             {
@@ -51,8 +51,6 @@ namespace DotaManager
             _callbackManager.Subscribe<SteamUser.LoggedOnCallback>(OnLoggedOn);
             _callbackManager.Subscribe<SteamUser.LoggedOffCallback>(OnLoggedOff);
             _callbackManager.Subscribe<SteamUser.AccountInfoCallback>(OnAccountInfo);
-
-            // _callbackManager.Subscribe<SteamGameCoordinator.MessageCallback>(OnGCMessage);=
         }
 
         private void OnConnected(SteamClient.ConnectedCallback callback)
@@ -134,5 +132,8 @@ namespace DotaManager
             _isRunning = ManagerStatus.Stopped;
             _steamClient.Disconnect();
         }
+
+        public SteamClient SteamClient => _steamClient;
+        public CallbackManager CallbackManager => _callbackManager;
     }
 }
