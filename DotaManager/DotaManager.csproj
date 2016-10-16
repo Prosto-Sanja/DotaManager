@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data Classes\Enums\ManagerStatus.cs" />
     <Compile Include="Data Classes\Exceptions\ConnectionException.cs" />
     <Compile Include="Data Classes\Exceptions\InvalidCredentialsException.cs" />
     <Compile Include="Data Classes\Exceptions\SteamLoginException.cs" />

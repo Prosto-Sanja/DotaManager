@@ -35,11 +35,13 @@ namespace DotaManager
             this.usernameBox = new System.Windows.Forms.TextBox();
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.loginButton = new System.Windows.Forms.Button();
+            this.logoutButton = new System.Windows.Forms.Button();
             this.loginGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // loginGroup
             // 
+            this.loginGroup.Controls.Add(this.logoutButton);
             this.loginGroup.Controls.Add(this.loginButton);
             this.loginGroup.Controls.Add(this.passwordBox);
             this.loginGroup.Controls.Add(this.usernameBox);
@@ -72,6 +74,7 @@ namespace DotaManager
             // loginButton
             // 
             this.loginButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loginButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loginButton.Location = new System.Drawing.Point(227, 19);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(102, 20);
@@ -79,6 +82,18 @@ namespace DotaManager
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
+            // 
+            // logoutButton
+            // 
+            this.logoutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.logoutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logoutButton.Location = new System.Drawing.Point(227, 45);
+            this.logoutButton.Name = "logoutButton";
+            this.logoutButton.Size = new System.Drawing.Size(102, 20);
+            this.logoutButton.TabIndex = 4;
+            this.logoutButton.Text = "Logout";
+            this.logoutButton.UseVisualStyleBackColor = true;
+            this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
             // 
             // FormMain
             // 
@@ -103,5 +118,6 @@ namespace DotaManager
         private TextBox usernameBox;
         private Button loginButton;
         private TextBox passwordBox;
+        private Button logoutButton;
     }
 }

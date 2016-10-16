@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using DotaManager.Data_Classes.Exceptions;
+using DotaManager.Data_Classes.Enums;
 
 namespace DotaManager
 {
@@ -17,7 +17,7 @@ namespace DotaManager
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-           
+
         }
 
         private void FormMain_Closing(object sender, FormClosingEventArgs eventArgs)
@@ -36,7 +36,7 @@ namespace DotaManager
                 _manager = new Manager(usernameBox.Text, passwordBox.Text);
                 _managerThread = new Thread(_manager.Start);
                 _managerThread.Start();
-                _exceptionThread = new Thread(monitorError);
+                _exceptionThread = new Thread(MonitorError);
                 _exceptionThread.Start();
             }
             catch (Exception exception)
@@ -45,19 +45,31 @@ namespace DotaManager
             }
         }
 
-        private void monitorError()
+        private void logoutButton_Click(object sender, EventArgs e)
         {
-            while (_manager.IsRunning())
+            // Shutdown manager
+            if (_managerThread != null && _managerThread.IsAlive)
             {
-                try
+                _manager.Stop();
+            }
+        }
+
+        private void MonitorError()
+        {
+            try
+            {
+                ManagerStatus status;
+                while ((status = _manager.Monitor()) != ManagerStatus.Stopped)
                 {
-                    _manager.MonitorException();
-                }
-                catch (Exception exception)
-                {
-                    MessageBox.Show(exception.GetType().ToString());
+                    Console.WriteLine(status);
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
                 }
             }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.GetType().ToString());
+            }
+
         }
     }
 }
