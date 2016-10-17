@@ -123,7 +123,7 @@ namespace DotaManager
         private void connectButton_Click(object sender, EventArgs e)
         {
             _cachesManager.RegisterPartyInviteHandler();
-            _cachesManager.RegisterPartyHandler(testBox);
+            _cachesManager.RegisterPartyHandler(partyBox);
         }
 
         private void ShutdownEvrything()

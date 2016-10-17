@@ -62,6 +62,12 @@
     <Compile Include="Dota Operations\CachesManager.cs" />
     <Compile Include="Dota Operations\Caches\Party.cs" />
     <Compile Include="Dota Operations\Caches\PartyInvite.cs" />
+    <Compile Include="Dota Operations\Forms\CreateLobbyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dota Operations\Forms\CreateLobbyForm.Designer.cs">
+      <DependentUpon>CreateLobbyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DotaManager.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>

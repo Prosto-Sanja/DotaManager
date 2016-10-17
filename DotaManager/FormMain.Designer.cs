@@ -43,12 +43,15 @@ namespace DotaManager
             this.SteamStatusLabel = new System.Windows.Forms.Label();
             this.mainTable = new System.Windows.Forms.TableLayoutPanel();
             this.partyGroup = new System.Windows.Forms.GroupBox();
-            this.testBox = new System.Windows.Forms.TextBox();
-            this.lobbyBox = new System.Windows.Forms.GroupBox();
+            this.partyBox = new System.Windows.Forms.TextBox();
+            this.lobbyGroup = new System.Windows.Forms.GroupBox();
+            this.lobbyBox = new System.Windows.Forms.TextBox();
+            this.lobbyButton = new System.Windows.Forms.Button();
             this.loginGroup.SuspendLayout();
             this.playGroup.SuspendLayout();
             this.mainTable.SuspendLayout();
             this.partyGroup.SuspendLayout();
+            this.lobbyGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // loginGroup
@@ -171,7 +174,7 @@ namespace DotaManager
             this.mainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.mainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.mainTable.Controls.Add(this.partyGroup, 0, 0);
-            this.mainTable.Controls.Add(this.lobbyBox, 1, 0);
+            this.mainTable.Controls.Add(this.lobbyGroup, 1, 0);
             this.mainTable.Location = new System.Drawing.Point(12, 89);
             this.mainTable.Name = "mainTable";
             this.mainTable.RowCount = 1;
@@ -184,7 +187,7 @@ namespace DotaManager
             this.partyGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.partyGroup.Controls.Add(this.testBox);
+            this.partyGroup.Controls.Add(this.partyBox);
             this.partyGroup.Location = new System.Drawing.Point(3, 3);
             this.partyGroup.Name = "partyGroup";
             this.partyGroup.Size = new System.Drawing.Size(134, 254);
@@ -192,28 +195,52 @@ namespace DotaManager
             this.partyGroup.TabStop = false;
             this.partyGroup.Text = "Party";
             // 
-            // testBox
+            // partyBox
             // 
-            this.testBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.partyBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.testBox.Location = new System.Drawing.Point(6, 19);
-            this.testBox.Multiline = true;
-            this.testBox.Name = "testBox";
-            this.testBox.Size = new System.Drawing.Size(122, 229);
-            this.testBox.TabIndex = 1;
+            this.partyBox.Location = new System.Drawing.Point(6, 19);
+            this.partyBox.Multiline = true;
+            this.partyBox.Name = "partyBox";
+            this.partyBox.Size = new System.Drawing.Size(122, 229);
+            this.partyBox.TabIndex = 1;
+            // 
+            // lobbyGroup
+            // 
+            this.lobbyGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lobbyGroup.Controls.Add(this.lobbyButton);
+            this.lobbyGroup.Controls.Add(this.lobbyBox);
+            this.lobbyGroup.Location = new System.Drawing.Point(143, 3);
+            this.lobbyGroup.Name = "lobbyGroup";
+            this.lobbyGroup.Size = new System.Drawing.Size(134, 254);
+            this.lobbyGroup.TabIndex = 2;
+            this.lobbyGroup.TabStop = false;
+            this.lobbyGroup.Text = "Lobby";
             // 
             // lobbyBox
             // 
             this.lobbyBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lobbyBox.Location = new System.Drawing.Point(143, 3);
+            this.lobbyBox.Location = new System.Drawing.Point(6, 19);
+            this.lobbyBox.Multiline = true;
             this.lobbyBox.Name = "lobbyBox";
-            this.lobbyBox.Size = new System.Drawing.Size(134, 254);
-            this.lobbyBox.TabIndex = 2;
-            this.lobbyBox.TabStop = false;
-            this.lobbyBox.Text = "Lobby";
+            this.lobbyBox.Size = new System.Drawing.Size(122, 200);
+            this.lobbyBox.TabIndex = 1;
+            // 
+            // lobbyButton
+            // 
+            this.lobbyButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lobbyButton.Location = new System.Drawing.Point(6, 225);
+            this.lobbyButton.Name = "lobbyButton";
+            this.lobbyButton.Size = new System.Drawing.Size(122, 23);
+            this.lobbyButton.TabIndex = 2;
+            this.lobbyButton.Text = "Create Lobby";
+            this.lobbyButton.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -234,6 +261,8 @@ namespace DotaManager
             this.mainTable.ResumeLayout(false);
             this.partyGroup.ResumeLayout(false);
             this.partyGroup.PerformLayout();
+            this.lobbyGroup.ResumeLayout(false);
+            this.lobbyGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -252,7 +281,9 @@ namespace DotaManager
         private Button connectButton;
         private TableLayoutPanel mainTable;
         private GroupBox partyGroup;
-        private TextBox testBox;
-        private GroupBox lobbyBox;
+        private TextBox partyBox;
+        private GroupBox lobbyGroup;
+        private Button lobbyButton;
+        private TextBox lobbyBox;
     }
 }
