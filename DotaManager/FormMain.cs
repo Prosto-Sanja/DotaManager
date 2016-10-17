@@ -119,8 +119,12 @@ namespace DotaManager
 
         private void button1_Click(object sender, EventArgs e)
         {
-         //   _dotaManager.AddMessageHandler((uint)ESOMsg.k_ESOMsg_CacheSubscribed, CacheSubscribed);
-            dotaStatusLabel.Text = "dshfbuysdgh";
+            _dotaManager.AddCacheHandler(CacheSubscritionTypes.Partyinvite, Test);
+        }
+
+        private void Test(CMsgSOCacheSubscribed.SubscribedType subscribedType)
+        {
+            Console.WriteLine("Received in main!");
         }
 
         private void ShutdownEvrything()

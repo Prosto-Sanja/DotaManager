@@ -21,6 +21,7 @@ namespace DotaManager
         // setup our dispatch table for messages
         // this makes the code cleaner and easier to maintain
         private Dictionary<uint, Action<IPacketGCMsg>> _messageMap = new Dictionary<uint, Action<IPacketGCMsg>>();
+        private Dictionary<CacheSubscritionTypes, Action<CMsgSOCacheSubscribed.SubscribedType>> _cacheMap = new Dictionary<CacheSubscritionTypes, Action<CMsgSOCacheSubscribed.SubscribedType>>();
 
         public DotaManager(SteamClient steamClient, CallbackManager callbackManager)
         {
@@ -52,6 +53,7 @@ namespace DotaManager
                 }
             };
             AddMessageHandler((uint)EGCBaseClientMsg.k_EMsgGCClientWelcome, Connected);
+            AddMessageHandler((uint)ESOMsg.k_ESOMsg_CacheSubscribed, OnCacheSubscribed);
             _steamGameCoordinator.Send(clientHello, 570);
             _status = DotaManagerStatus.Connecting;
         }
@@ -69,10 +71,6 @@ namespace DotaManager
                 Console.WriteLine("Received unhandled message: " + callback.EMsg);
                 return;
             }
-            else if (func == null)
-            {
-                return;
-            }
 
             func(callback.Message);
         }
@@ -82,9 +80,32 @@ namespace DotaManager
             _status = DotaManagerStatus.InGame;
         }
 
+        private void OnCacheSubscribed(IPacketGCMsg packetGcMsg)
+        {
+            Action<CMsgSOCacheSubscribed.SubscribedType> func;
+            var sub = new ClientGCMsgProtobuf<CMsgSOCacheSubscribed>(packetGcMsg);
+            foreach (var cache in sub.Body.objects)
+            {
+                if (!_cacheMap.TryGetValue((CacheSubscritionTypes) cache.type_id, out func))
+                {
+                    // this will happen when we recieve some cache messages that we're not handling
+                    // this is okay because we're handling every essential message, and the rest can be ignored
+                    Console.WriteLine("Received unhandled cache: " + (CacheSubscritionTypes)cache.type_id);
+                    return;
+                }
+
+                func(cache);
+            }
+        }
+
         public void AddMessageHandler(uint key, Action<IPacketGCMsg> value)
         {
             _messageMap.Add(key, value);
+        }
+
+        public void AddCacheHandler(CacheSubscritionTypes subscritionType, Action<CMsgSOCacheSubscribed.SubscribedType> value)
+        {
+            _cacheMap.Add(subscritionType, value);
         }
 
         public DotaManagerStatus Monitor()
