@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.1.0\lib\net451\protobuf-net.dll</HintPath>
       <Private>True</Private>
@@ -55,6 +59,8 @@
     <Compile Include="Data Classes\Exceptions\ConnectionException.cs" />
     <Compile Include="Data Classes\Exceptions\InvalidCredentialsException.cs" />
     <Compile Include="Data Classes\Exceptions\SteamLoginException.cs" />
+    <Compile Include="Dota Operations\CachesManager.cs" />
+    <Compile Include="Dota Operations\Caches\PartyInvite.cs" />
     <Compile Include="DotaManager.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
@@ -98,7 +104,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dota Operations\" />
+    <Folder Include="Dota Operations\Messages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

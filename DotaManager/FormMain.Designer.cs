@@ -38,9 +38,10 @@ namespace DotaManager
             this.usernameBox = new System.Windows.Forms.TextBox();
             this.playButton = new System.Windows.Forms.Button();
             this.playGroup = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.SteamStatusLabel = new System.Windows.Forms.Label();
+            this.connectButton = new System.Windows.Forms.Button();
             this.dotaStatusLabel = new System.Windows.Forms.Label();
+            this.SteamStatusLabel = new System.Windows.Forms.Label();
+            this.mainTable = new System.Windows.Forms.TableLayoutPanel();
             this.loginGroup.SuspendLayout();
             this.playGroup.SuspendLayout();
             this.SuspendLayout();
@@ -103,11 +104,9 @@ namespace DotaManager
             // 
             // playButton
             // 
-            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.playButton.Location = new System.Drawing.Point(6, 32);
             this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(207, 33);
+            this.playButton.Size = new System.Drawing.Size(100, 33);
             this.playButton.TabIndex = 1;
             this.playButton.Text = "Launch DOTA";
             this.playButton.UseVisualStyleBackColor = true;
@@ -115,8 +114,8 @@ namespace DotaManager
             // 
             // playGroup
             // 
-            this.playGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.playGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.playGroup.Controls.Add(this.connectButton);
             this.playGroup.Controls.Add(this.dotaStatusLabel);
             this.playGroup.Controls.Add(this.SteamStatusLabel);
             this.playGroup.Controls.Add(this.playButton);
@@ -127,15 +126,26 @@ namespace DotaManager
             this.playGroup.TabStop = false;
             this.playGroup.Text = "Dota";
             // 
-            // button1
+            // connectButton
             // 
-            this.button1.Location = new System.Drawing.Point(265, 186);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.connectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.connectButton.Location = new System.Drawing.Point(113, 32);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(100, 33);
+            this.connectButton.TabIndex = 2;
+            this.connectButton.Text = "Connect All";
+            this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            // 
+            // dotaStatusLabel
+            // 
+            this.dotaStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dotaStatusLabel.Location = new System.Drawing.Point(113, 16);
+            this.dotaStatusLabel.Name = "dotaStatusLabel";
+            this.dotaStatusLabel.Size = new System.Drawing.Size(100, 13);
+            this.dotaStatusLabel.TabIndex = 0;
+            this.dotaStatusLabel.Text = "Dota: Stopped";
+            this.dotaStatusLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // SteamStatusLabel
             // 
@@ -145,22 +155,29 @@ namespace DotaManager
             this.SteamStatusLabel.TabIndex = 0;
             this.SteamStatusLabel.Text = "Steam: Stopped";
             // 
-            // dotaStatusLabel
+            // mainTable
             // 
-            this.dotaStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dotaStatusLabel.Location = new System.Drawing.Point(112, 16);
-            this.dotaStatusLabel.Name = "dotaStatusLabel";
-            this.dotaStatusLabel.Size = new System.Drawing.Size(100, 13);
-            this.dotaStatusLabel.TabIndex = 0;
-            this.dotaStatusLabel.Text = "Dota: Stopped";
-            this.dotaStatusLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.mainTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainTable.ColumnCount = 4;
+            this.mainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.mainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.mainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.mainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.mainTable.Location = new System.Drawing.Point(12, 89);
+            this.mainTable.Name = "mainTable";
+            this.mainTable.RowCount = 1;
+            this.mainTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainTable.Size = new System.Drawing.Size(560, 260);
+            this.mainTable.TabIndex = 3;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.mainTable);
             this.Controls.Add(this.playGroup);
             this.Controls.Add(this.loginGroup);
             this.MinimumSize = new System.Drawing.Size(600, 400);
@@ -184,8 +201,9 @@ namespace DotaManager
         private Button logoutButton;
         private Button playButton;
         private GroupBox playGroup;
-        private Button button1;
         private Label dotaStatusLabel;
         private Label SteamStatusLabel;
+        private Button connectButton;
+        private TableLayoutPanel mainTable;
     }
 }

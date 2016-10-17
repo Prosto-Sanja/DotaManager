@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 using DotaManager.Data_Classes.Enums;
+using DotaManager.Dota_Operations;
 using SteamKit2.GC.Dota.Internal;
 
 namespace DotaManager
@@ -11,6 +12,7 @@ namespace DotaManager
         private Thread _managerThread, _exceptionThread;
         private SteamManager _steamManager;
         private DotaManager _dotaManager;
+        private CachesManager _cachesManager;
 
         public FormMain()
         {
@@ -54,6 +56,7 @@ namespace DotaManager
         {
             _dotaManager = new DotaManager(_steamManager.SteamClient, _steamManager.CallbackManager);
             _dotaManager.Start();
+            _cachesManager = new CachesManager(_dotaManager);
         }
 
         //monitoring steam and dota status(dota<steam)
@@ -77,7 +80,7 @@ namespace DotaManager
             catch (Exception exception)
             {
                 SetSteamStatusText(SteamManagerStatus.Exception.ToString());
-                MessageBox.Show(exception.GetType().ToString() + "\n" + exception.Message);
+                MessageBox.Show(exception.GetType() + "\n" + exception.Message);
             }
         }
 
@@ -117,14 +120,9 @@ namespace DotaManager
 
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
+        private void connectButton_Click(object sender, EventArgs e)
         {
-            _dotaManager.AddCacheHandler(CacheSubscritionTypes.Partyinvite, Test);
-        }
-
-        private void Test(CMsgSOCacheSubscribed.SubscribedType subscribedType)
-        {
-            Console.WriteLine("Received in main!");
+            _cachesManager.RegisterPartyInviteHandler();
         }
 
         private void ShutdownEvrything()
