@@ -60,6 +60,7 @@
     <Compile Include="Data Classes\Exceptions\InvalidCredentialsException.cs" />
     <Compile Include="Data Classes\Exceptions\SteamLoginException.cs" />
     <Compile Include="Dota Operations\CachesManager.cs" />
+    <Compile Include="Dota Operations\Caches\Party.cs" />
     <Compile Include="Dota Operations\Caches\PartyInvite.cs" />
     <Compile Include="DotaManager.cs" />
     <Compile Include="FormMain.cs">

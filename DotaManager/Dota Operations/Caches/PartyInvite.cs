@@ -17,9 +17,9 @@ namespace DotaManager.Dota_Operations.Caches
             _steamGameCoordinator = steamGameCoordinator;
         }
 
-        public void HandleInvite(CMsgSOCacheSubscribed.SubscribedType cache)
+        public void HandleInvite(byte[] cache)
         {
-            using (var stream = new MemoryStream(cache.object_data[0]))
+            using (var stream = new MemoryStream(cache))
             {
                 var party = Serializer.Deserialize<CSODOTAPartyInvite>(stream);
                 var message = "You were invited to a ";

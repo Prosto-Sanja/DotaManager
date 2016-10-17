@@ -21,7 +21,7 @@ namespace DotaManager
         // setup our dispatch table for messages
         // this makes the code cleaner and easier to maintain
         private Dictionary<uint, Action<IPacketGCMsg>> _messageMap = new Dictionary<uint, Action<IPacketGCMsg>>();
-        private Dictionary<CacheSubscritionTypes, Action<CMsgSOCacheSubscribed.SubscribedType>> _cacheMap = new Dictionary<CacheSubscritionTypes, Action<CMsgSOCacheSubscribed.SubscribedType>>();
+        private Dictionary<CacheSubscritionTypes, Action<byte[]>> _cacheMap = new Dictionary<CacheSubscritionTypes, Action<byte[]>>();
 
         public DotaManager(SteamClient steamClient, CallbackManager callbackManager)
         {
@@ -54,6 +54,7 @@ namespace DotaManager
             };
             AddMessageHandler((uint)EGCBaseClientMsg.k_EMsgGCClientWelcome, Connected);
             AddMessageHandler((uint)ESOMsg.k_ESOMsg_CacheSubscribed, OnCacheSubscribed);
+            AddMessageHandler((uint)ESOMsg.k_ESOMsg_UpdateMultiple, OnUpdateMultiple);
             _steamGameCoordinator.Send(clientHello, 570);
             _status = DotaManagerStatus.Connecting;
         }
@@ -82,7 +83,7 @@ namespace DotaManager
 
         private void OnCacheSubscribed(IPacketGCMsg packetGcMsg)
         {
-            Action<CMsgSOCacheSubscribed.SubscribedType> func;
+            Action<byte[]> func;
             var sub = new ClientGCMsgProtobuf<CMsgSOCacheSubscribed>(packetGcMsg);
             foreach (var cache in sub.Body.objects)
             {
@@ -90,11 +91,29 @@ namespace DotaManager
                 {
                     // this will happen when we recieve some cache messages that we're not handling
                     // this is okay because we're handling every essential message, and the rest can be ignored
-                    Console.WriteLine("Received unhandled cache: " + (CacheSubscritionTypes)cache.type_id);
+                    Console.WriteLine("Subscribed unhandled cache: " + (CacheSubscritionTypes)cache.type_id);
                     return;
                 }
 
-                func(cache);
+                func(cache.object_data[0]);
+            }
+        }
+
+        private void OnUpdateMultiple(IPacketGCMsg packetGcMsg)
+        {
+            Action<byte[]> func;
+            var sub = new ClientGCMsgProtobuf<CMsgSOMultipleObjects>(packetGcMsg);
+            foreach (var cache in sub.Body.objects_modified)
+            {
+                if (!_cacheMap.TryGetValue((CacheSubscritionTypes)cache.type_id, out func))
+                {
+                    // this will happen when we recieve some cache messages that we're not handling
+                    // this is okay because we're handling every essential message, and the rest can be ignored
+                    Console.WriteLine("Updated unhandled cache: " + (CacheSubscritionTypes)cache.type_id);
+                    return;
+                }
+
+                func(cache.object_data);
             }
         }
 
@@ -103,7 +122,7 @@ namespace DotaManager
             _messageMap.Add(key, value);
         }
 
-        public void AddCacheHandler(CacheSubscritionTypes subscritionType, Action<CMsgSOCacheSubscribed.SubscribedType> value)
+        public void AddCacheHandler(CacheSubscritionTypes subscritionType, Action<byte[]> value)
         {
             _cacheMap.Add(subscritionType, value);
         }

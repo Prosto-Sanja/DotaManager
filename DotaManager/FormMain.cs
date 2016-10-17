@@ -21,7 +21,7 @@ namespace DotaManager
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-
+            var sdd = new CSODOTALobby();
         }
 
         private void FormMain_Closing(object sender, FormClosingEventArgs eventArgs)
@@ -123,6 +123,7 @@ namespace DotaManager
         private void connectButton_Click(object sender, EventArgs e)
         {
             _cachesManager.RegisterPartyInviteHandler();
+            _cachesManager.RegisterPartyHandler(testBox);
         }
 
         private void ShutdownEvrything()
