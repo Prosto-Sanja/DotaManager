@@ -131,7 +131,7 @@ namespace DotaManager
         private void lobbyButton_Click(object sender, EventArgs e)
         {
             //_cachesManager.Test();
-            CreateLobbyForm clf = new CreateLobbyForm();
+            CreateLobbyForm clf = new CreateLobbyForm(_dotaManager.SteamGameCoordinator);
             clf.Show();
         }
 

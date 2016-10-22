@@ -41,8 +41,6 @@ namespace DotaManager
                 game_id = new GameID(570), // or game_id = APPID,
             });
             _steamClient.Send(playGame);
-            // delay a little to give steam some time to establish a GC connection to us
-            Thread.Sleep(5000);
             // inform the dota GC that we want a session
             var clientHello = new ClientGCMsgProtobuf<CMsgClientHello>((uint) EGCBaseClientMsg.k_EMsgGCClientHello)
             {
