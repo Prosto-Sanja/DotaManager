@@ -60,6 +60,7 @@
     <Compile Include="Data Classes\Exceptions\InvalidCredentialsException.cs" />
     <Compile Include="Data Classes\Exceptions\SteamLoginException.cs" />
     <Compile Include="Dota Operations\CachesManager.cs" />
+    <Compile Include="Dota Operations\Caches\Lobby.cs" />
     <Compile Include="Dota Operations\Caches\Party.cs" />
     <Compile Include="Dota Operations\Caches\PartyInvite.cs" />
     <Compile Include="Dota Operations\Forms\CreateLobbyForm.cs">
@@ -78,6 +79,9 @@
     <Compile Include="SteamManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dota Operations\Forms\CreateLobbyForm.resx">
+      <DependentUpon>CreateLobbyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

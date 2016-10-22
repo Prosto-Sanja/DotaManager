@@ -45,8 +45,8 @@ namespace DotaManager
             this.partyGroup = new System.Windows.Forms.GroupBox();
             this.partyBox = new System.Windows.Forms.TextBox();
             this.lobbyGroup = new System.Windows.Forms.GroupBox();
-            this.lobbyBox = new System.Windows.Forms.TextBox();
             this.lobbyButton = new System.Windows.Forms.Button();
+            this.lobbyBox = new System.Windows.Forms.TextBox();
             this.loginGroup.SuspendLayout();
             this.playGroup.SuspendLayout();
             this.mainTable.SuspendLayout();
@@ -97,9 +97,9 @@ namespace DotaManager
             | System.Windows.Forms.AnchorStyles.Right)));
             this.passwordBox.Location = new System.Drawing.Point(6, 45);
             this.passwordBox.Name = "passwordBox";
-            this.passwordBox.PasswordChar = '*';
             this.passwordBox.Size = new System.Drawing.Size(215, 20);
             this.passwordBox.TabIndex = 2;
+            this.passwordBox.UseSystemPasswordChar = true;
             // 
             // usernameBox
             // 
@@ -203,6 +203,7 @@ namespace DotaManager
             this.partyBox.Location = new System.Drawing.Point(6, 19);
             this.partyBox.Multiline = true;
             this.partyBox.Name = "partyBox";
+            this.partyBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.partyBox.Size = new System.Drawing.Size(122, 229);
             this.partyBox.TabIndex = 1;
             // 
@@ -220,17 +221,6 @@ namespace DotaManager
             this.lobbyGroup.TabStop = false;
             this.lobbyGroup.Text = "Lobby";
             // 
-            // lobbyBox
-            // 
-            this.lobbyBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lobbyBox.Location = new System.Drawing.Point(6, 19);
-            this.lobbyBox.Multiline = true;
-            this.lobbyBox.Name = "lobbyBox";
-            this.lobbyBox.Size = new System.Drawing.Size(122, 200);
-            this.lobbyBox.TabIndex = 1;
-            // 
             // lobbyButton
             // 
             this.lobbyButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -241,6 +231,19 @@ namespace DotaManager
             this.lobbyButton.TabIndex = 2;
             this.lobbyButton.Text = "Create Lobby";
             this.lobbyButton.UseVisualStyleBackColor = true;
+            this.lobbyButton.Click += new System.EventHandler(this.lobbyButton_Click);
+            // 
+            // lobbyBox
+            // 
+            this.lobbyBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lobbyBox.Location = new System.Drawing.Point(6, 19);
+            this.lobbyBox.Multiline = true;
+            this.lobbyBox.Name = "lobbyBox";
+            this.lobbyBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.lobbyBox.Size = new System.Drawing.Size(122, 200);
+            this.lobbyBox.TabIndex = 1;
             // 
             // FormMain
             // 

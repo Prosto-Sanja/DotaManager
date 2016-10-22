@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using DotaManager.Data_Classes.Enums;
 using DotaManager.Dota_Operations;
+using DotaManager.Dota_Operations.Forms;
 using SteamKit2.GC.Dota.Internal;
 
 namespace DotaManager
@@ -124,6 +125,14 @@ namespace DotaManager
         {
             _cachesManager.RegisterPartyInviteHandler();
             _cachesManager.RegisterPartyHandler(partyBox);
+            _cachesManager.RegisterLobbyHandler(lobbyBox);
+        }
+
+        private void lobbyButton_Click(object sender, EventArgs e)
+        {
+            //_cachesManager.Test();
+            CreateLobbyForm clf = new CreateLobbyForm();
+            clf.Show();
         }
 
         private void ShutdownEvrything()
